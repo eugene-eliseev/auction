@@ -1,9 +1,12 @@
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
+
+import time
+
 from api_worker import Api
 from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot
 from lang import LANG
-from models import Player
+from models import Player, Lot, Item
 from http.cookies import SimpleCookie
 from urllib.parse import parse_qs
 
@@ -71,6 +74,32 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     "item_id": item.item,
                     "id": item.id,
                     "item_name": get_name_from_id(item.server, item.item)
+                })
+        if self.path == "all_lots":
+            item_str = open(os.path.join("static", "all_lots_lot_item.html"), "r", encoding="utf8").read()
+            lot_buyer = open(os.path.join("static", "lot_buyer.html"), "r", encoding="utf8").read()
+            lot_usual = open(os.path.join("static", "lot_usual.html"), "r", encoding="utf8").read()
+            vars["lots"] = ""
+            lots = Lot.get_lots()
+            for lot in lots:
+                lot_change = ""
+                if lot.buyer == player.player:
+                    lot_change = template(lot_buyer, {"cost_now": lot.price_end})
+                elif lot.player != player.player:
+                    lot_change = template(lot_usual, {"cost_now": lot.price_end})
+                item = Item.from_lot(lot)
+                vars["lots"] += template(item_str, {
+                    "id": lot.id,
+                    "item_name": get_name_from_id(item.server, item.item),
+                    "item_count": item.amount,
+                    "item_id": item.item,
+                    "user_name": lot.player,
+                    "server_name": item.server,
+                    "cost_start": lot.price_start,
+                    "cost_current": lot.price_now,
+                    "cost_end": lot.price_end,
+                    "time_end": int(lot.last_changed + 86400 - time.time()),
+                    "lot_change": lot_change
                 })
         file_html = os.path.join("static", "{}.html".format(self.path))
         if os.path.exists(file_html):

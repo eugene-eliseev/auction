@@ -30,6 +30,8 @@ class Player:
     def __init__(self, name, session_id='', balance=0):
         self.player = name
         self.session_id = session_id
+        if balance is None:
+            balance = 0
         self.balance = float(balance)
 
     def save(self):
@@ -143,6 +145,16 @@ class Lot:
                 player_name
             )
         )
+        res = cursor.fetchall()
+        for d in res:
+            lots.append(Lot(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]))
+        return lots
+
+    @classmethod
+    def get_lots(cls):
+        lots = []
+        cursor, conn = STORAGE.get_connection()
+        cursor.execute("SELECT id, player, item_id, price_start, buyer, price_now, price_end, last_changed FROM lots")
         res = cursor.fetchall()
         for d in res:
             lots.append(Lot(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]))
