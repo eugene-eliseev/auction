@@ -9,6 +9,20 @@ import hashlib
 import re
 
 
+def order_lot_by_time(lot):
+    if lot.buyer != "":
+        item = Item.from_lot(lot)
+        item.player = lot.buyer
+        if Api.create_item_server(item):
+            item.remove()
+        else:
+            item.save()
+        owner = Player.from_name(lot.player)
+        owner.balance += lot.price_now
+        owner.save()
+    lot.remove()
+
+
 def order_lot(player, lot_id, price):
     lot = Lot.from_id(lot_id)
     if player.player == lot.buyer:
@@ -27,10 +41,13 @@ def order_lot(player, lot_id, price):
         item.player = player
         if Api.create_item_server(item):
             item.remove()
-            lot.remove()
-            player.save()
         else:
             item.save()
+        owner = Player.from_name(lot.player)
+        owner += price
+        owner.save()
+        lot.remove()
+        player.save()
         return True, "you_lot_done"
     if lot.buyer != "":
         old_buyer = Player.from_name(lot.buyer)
