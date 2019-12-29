@@ -1,6 +1,6 @@
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
-
+import subprocess
 import time
 
 from api_worker import Api
@@ -168,6 +168,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 params["price_start"][0],
                 params["price_end"][0]
             )
+            os.system('echo "{},{},{},{},{},{}" >> log.txt'.format(
+                int(time.time()),
+                player.player,
+                params["id"][0],
+                params["amount"][0],
+                params["price_start"][0],
+                params["price_end"][0]
+            ))
         if "change_now_id" in params and "cost_current" in params:
             res, info = order_lot(player, params["change_now_id"][0], params["cost_current"][0])
         if "buy_now_id" in params:
