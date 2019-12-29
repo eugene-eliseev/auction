@@ -1,0 +1,94 @@
+.square1
+{
+  width: 150px;
+  height: 150px;
+  margin: 10px auto;
+  background-color: yellow;  
+  
+  animation-name: spinSQ1;
+  animation-duration: 10s;
+  animation-timing-sunction: linear;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  
+}
+.square2
+{
+  width: 50px;
+  height: 50px;
+  margin: -110px auto;
+  background-color: red;
+  box-shadow: 0 5px 0 gray;
+  opacity: 0.5;
+  
+  animation-name: spinSQ2;
+  animation-duration: 1s;
+  animation-timing-sunction: linear;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  
+}
+
+@keyframes spinSQ1 {
+  
+  0%
+  {
+    transform: translateX(+0px); 
+  }
+  20%
+  {
+    transform: translateX(+200px);
+  }
+  40%
+  {
+    transform: translateX(-400px);
+  }
+ 50%
+  {
+        transform: rotate(0deg);
+  }
+  100%
+  {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinSQ2 {
+  0%
+  {
+    transform: translateY(0);
+  }
+  50%
+  {
+    transform: translateY(-200px);
+  }
+  100%
+  {
+    transform: translateY(0);
+  }
+}
+
+
+#buttonID{
+  color:red;
+  background-color: silver;
+  margin: 0px auto;
+  padding: 10px;
+  height: 50px;
+  width: 300px;
+  border-radius: 40px;
+  font-arial: Arial;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  font-size: 18px;
+  transition: width 0.5s;
+}
+#buttonID:hover{
+  width:450px;
+  box-shadow: 20px 20px 40px #033;
+}
+
+
+.item_box:hover{
+  width:220px;
+  box-shadow: 20px 20px 40px #033;
+}
