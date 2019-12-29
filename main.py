@@ -1,9 +1,8 @@
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from io import BytesIO
-
 from api_worker import Api
-from functions import generate_session, template, generate_nav, get_items, get_name_from_id
+from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot
+from lang import LANG
 from models import Player
 from http.cookies import SimpleCookie
 from urllib.parse import parse_qs
@@ -17,12 +16,24 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Location", path)
         self.end_headers()
 
-    def do_GET(self):
+    def get_player(self):
         cookies = SimpleCookie(self.headers.get("Cookie"))
         session_id = None
         if "session_id" in cookies:
             session_id = cookies["session_id"].value
-        player = Player.from_session(session_id)
+        return Player.from_session(session_id)
+
+    def do_GET(self):
+        player = self.get_player()
+
+        message = ""
+        if len(self.path.split('?')) > 1:
+            data = self.path.split('?')[1].split('=')
+            message = {
+                "status": LANG[data[0]],
+                "info": LANG[data[1]]
+            }
+
         self.path = self.path.split('?')[0][1:]
         if self.path == "":
             self.path = "index"
@@ -41,8 +52,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.redirect("/login")
             return
 
-        if self.path == "login":
-            self.path = "login.html"
         file = os.path.join("static", self.path)
         if os.path.exists(file):
             self.send_file(file)
@@ -65,21 +74,29 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 })
         file_html = os.path.join("static", "{}.html".format(self.path))
         if os.path.exists(file_html):
-            self.send_html(file_html, player, vars)
+            self.send_html(file_html, player, vars, message)
             return
         self.send_response(404)
         self.end_headers()
         self.wfile.write(b'404 not found')
         print(self.path, "404")
 
-    def send_html(self, file, player, vars):
-        content = open(file, "r", encoding="utf8").read()
-        content = template(content, vars)
+    def send_html(self, file, player, vars, message=""):
+        if message != "":
+            message_str = open(os.path.join("static", "message.html"), "r", encoding="utf8").read()
+            message = template(message_str, message)
+        if file == os.path.join("static", "login.html"):
+            content = open(file, "r", encoding="utf8").read()
+            page = template(content, {"message": message})
+        else:
 
-        nav = generate_nav(player)
+            content = open(file, "r", encoding="utf8").read()
+            content = template(content, vars)
 
-        main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
-        page = template(main, {"content": content, "navigation": nav})
+            nav = generate_nav(player)
+
+            main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
+            page = template(main, {"message": message, "content": content, "navigation": nav})
 
         self.send_response(200)
         self.end_headers()
@@ -92,6 +109,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(file)
 
     def do_POST(self):
+        player = self.get_player()
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length)
         params = parse_qs(body.decode())
@@ -99,7 +117,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             username = Api.check_user(params["login"][0], params["pass"][0])
             if username is None:
                 print("Incorrect login", params["login"][0])
-                # TODO
+                self.redirect("/login?error=login_incorrect")
                 return
             balance = Api.get_balance(username)
             session_id = generate_session(username)
@@ -111,14 +129,18 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             print("Session created")
             self.redirect("/", cookie)
             return
-
-        self.send_response(200)
-        self.end_headers()
-        response = BytesIO()
-        response.write(b'This is POST request. ')
-        response.write(b'Received: ')
-        response.write(body)
-        self.wfile.write(response.getvalue())
+        if player is None:
+            self.redirect("/login")
+            return
+        if "id" in params and "amount" in params and "price_start" in params and "price_end" in params:
+            res, info = create_lot(params["id"][0], params["amount"][0], params["price_start"][0], params["price_end"][0])
+            if not res:
+                self.redirect("/add_lot?error={}".format(info))
+                return
+            else:
+                self.redirect("/add_lot?success={}".format(info))
+                return
+        self.redirect("/")
 
 
 httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
