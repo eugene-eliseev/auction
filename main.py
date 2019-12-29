@@ -4,7 +4,8 @@ import subprocess
 import time
 
 from api_worker import Api
-from functions import generate_session, template, generate_nav, get_items, create_lot, order_lot_by_time, order_lot
+from functions import generate_session, template, generate_nav, get_items, create_lot, order_lot_by_time, order_lot, \
+    html_special_chars
 from lang import LANG
 from models import Player, Lot, Item, get_name_from_id
 from http.cookies import SimpleCookie
@@ -68,12 +69,12 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             items = get_items(player.player)
             for item in items:
                 vars["items"] += template(item_str, {
-                    "server_name": item.server,
-                    "user_name": item.player,
+                    "server_name": html_special_chars(item.server),
+                    "user_name": html_special_chars(item.player),
                     "item_count": item.amount,
-                    "item_id": item.item,
+                    "item_id": html_special_chars(item.item),
                     "id": item.id,
-                    "item_name": get_name_from_id(item.server, item.item)
+                    "item_name": html_special_chars(get_name_from_id(item.server, item.item))
                 })
         if self.path == "all_lots":
             item_str = open(os.path.join("static", "all_lots_lot_item.html"), "r", encoding="utf8").read()
@@ -87,20 +88,26 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     continue
                 lot_change = ""
                 if lot.buyer == player.player:
-                    lot_change = template(lot_buyer, {"cost_now": lot.price_end, "buy_now_id": lot.id})
+                    lot_change = template(
+                        lot_buyer,
+                        {"cost_now": html_special_chars(lot.price_end), "buy_now_id": lot.id}
+                    )
                 elif lot.player != player.player:
-                    lot_change = template(lot_usual, {"cost_now": lot.price_end, "buy_now_id": lot.id})
+                    lot_change = template(
+                        lot_usual,
+                        {"cost_now": html_special_chars(lot.price_end), "buy_now_id": lot.id}
+                    )
                 item = Item.from_lot(lot)
                 vars["lots"] += template(item_str, {
                     "id": lot.id,
-                    "item_name": get_name_from_id(item.server, item.item),
+                    "item_name": html_special_chars(get_name_from_id(item.server, item.item)),
                     "item_count": item.amount,
-                    "item_id": item.item,
-                    "user_name": lot.player,
-                    "server_name": item.server,
-                    "cost_start": lot.price_start,
-                    "cost_current": lot.price_now,
-                    "cost_end": lot.price_end,
+                    "item_id": html_special_chars(item.item),
+                    "user_name": html_special_chars(lot.player),
+                    "server_name": html_special_chars(item.server),
+                    "cost_start": html_special_chars(lot.price_start),
+                    "cost_current": html_special_chars(lot.price_now),
+                    "cost_end": html_special_chars(lot.price_end),
                     "time_end": int(lot.last_changed + 86400 - time.time()),
                     "lot_change": lot_change
                 })
