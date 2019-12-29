@@ -38,9 +38,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.redirect("/login")
             return
 
-        file = os.path.join("static", "{}.html".format(self.path))
+        file = os.path.join("static", self.path)
         if os.path.exists(file):
             self.send_html(file)
+            return
+        file_html = os.path.join("static", "{}.html".format(self.path))
+        if os.path.exists(file_html):
+            self.send_html(file_html)
             return
         self.send_response(404)
         self.end_headers()
