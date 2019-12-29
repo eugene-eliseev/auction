@@ -25,7 +25,7 @@ STORAGE = DataStorage()
 
 class Player:
     def __init__(self, name, session_id='', balance=0):
-        self.name = name
+        self.player = name
         self.session_id = session_id
         self.balance = balance
 
@@ -35,8 +35,14 @@ class Player:
         return None
 
     @staticmethod
-    def from_session(name):
-        # TODO
+    def from_session(session_id):
+        if session_id is None:
+            return None
+        cursor, conn = STORAGE.get_connection()
+        cursor.execute("SELECT player, session, balance FROM players WHERE session = {}".format(session_id))
+        res = cursor.fetchall()
+        for d in res:
+            return Player(d[0], d[1], d[2])
         return None
 
 

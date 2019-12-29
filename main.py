@@ -2,11 +2,16 @@ import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
 from models import Player
+from http.cookies import SimpleCookie
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        player = Player.from_session(None)
+        cookies = SimpleCookie(self.headers.get("Cookie"))
+        session_id = None
+        if "session_id" in cookies:
+            session_id = cookies["session_id"].value
+        player = Player.from_session(session_id)
         if player is None:
             self.send_html("login.html")
             return
