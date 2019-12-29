@@ -50,7 +50,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             return
 
         if self.path == "exit":
-            print("Logout")
+            print("Logout", player.player)
             player.session_id = ""
             player.save()
             self.redirect("/login")
@@ -112,7 +112,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(404)
         self.end_headers()
         self.wfile.write(b'404 not found')
-        print(self.path, "404")
+        print("404", self.path)
 
     def send_html(self, file, player, vars, message=""):
         if message != "":
@@ -122,7 +122,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         content = open(file, "r", encoding="utf8").read()
         content = template(content, vars)
 
-        nav = generate_nav(player)
+        nav = generate_nav(player, os.path.basename(file).split(".")[0])
 
         main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
         page = template(main, {"message": message, "content": content, "navigation": nav})
@@ -155,7 +155,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             cookie = SimpleCookie()
             cookie["session_id"] = session_id
             cookie["session_id"]["expires"] = 90 * 86400
-            print("Session created")
+            print("Session created for user", username)
             self.redirect("/", cookie)
             return
         if player is None:

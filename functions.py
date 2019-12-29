@@ -132,7 +132,7 @@ def template(data, vars):
     return data
 
 
-def generate_nav(player):
+def generate_nav(player, page):
     nav = open(os.path.join("static", "nav_bar.html"), "r", encoding="utf8").read()
     if player is None:
         player_name = "Гость"
@@ -142,7 +142,16 @@ def generate_nav(player):
         auth_block = open(os.path.join("static", "auth_user.html"), "r", encoding="utf8").read()
         lots = Lot.find_lots_of_player(player_name)
         auth_block = template(auth_block, {"money": player.balance, "countLots": len(lots)})
-    return template(nav, {"user": player_name, "auth_block": auth_block})
+    vars = {
+        "user": player_name,
+        "auth_block": auth_block,
+        "index_active": "",
+        "all_lots_active": "",
+        "add_lot_active": ""
+    }
+    if "{}_active".format(page) in vars:
+        vars["{}_active".format(page)] = "active"
+    return template(nav, vars)
 
 
 def get_name_from_id(server, item_id):
