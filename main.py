@@ -118,18 +118,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         if message != "":
             message_str = open(os.path.join("static", "message.html"), "r", encoding="utf8").read()
             message = template(message_str, message)
-        if file == os.path.join("static", "login.html"):
-            content = open(file, "r", encoding="utf8").read()
-            page = template(content, {"message": message})
-        else:
 
-            content = open(file, "r", encoding="utf8").read()
-            content = template(content, vars)
+        content = open(file, "r", encoding="utf8").read()
+        content = template(content, vars)
 
-            nav = generate_nav(player)
+        nav = generate_nav(player)
 
-            main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
-            page = template(main, {"message": message, "content": content, "navigation": nav})
+        main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
+        page = template(main, {"message": message, "content": content, "navigation": nav})
 
         self.send_response(200)
         self.end_headers()
