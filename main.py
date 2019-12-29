@@ -4,7 +4,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import time
 
 from api_worker import Api
-from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot
+from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot, \
+    order_lot_by_time
 from lang import LANG
 from models import Player, Lot, Item
 from http.cookies import SimpleCookie
@@ -82,6 +83,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             vars["lots"] = ""
             lots = Lot.get_lots()
             for lot in lots:
+                if lot.last_changed + 86400 < time.time():
+                    order_lot_by_time(lot)
+                    continue
                 lot_change = ""
                 if lot.buyer == player.player:
                     lot_change = template(lot_buyer, {"cost_now": lot.price_end})
@@ -162,7 +166,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.redirect("/login")
             return
         if "id" in params and "amount" in params and "price_start" in params and "price_end" in params:
-            res, info = create_lot(params["id"][0], params["amount"][0], params["price_start"][0], params["price_end"][0])
+            res, info = create_lot(params["id"][0], params["amount"][0], params["price_start"][0],
+                                   params["price_end"][0])
             if not res:
                 self.redirect("/add_lot?error={}".format(info))
                 return
