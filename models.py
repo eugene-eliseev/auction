@@ -57,16 +57,15 @@ class Player:
         if Player.from_name(self.player) is None:
             if self.balance is None:
                 self.balance = 0
-            cursor.execute("INSERT INTO players (player, session, balance) VALUES ('{}', '{}', '{}')".format(
+            cursor.execute("INSERT INTO players (player, session, balance) VALUES (?, ?, ?)", [
                 self.player,
                 self.session_id,
                 self.balance
-            ))
+            ])
         else:
             if self.balance is not None:
-                cursor.execute(
-                    "UPDATE players SET balance = '{}' WHERE player = '{}'".format(self.balance, self.player))
-            cursor.execute("UPDATE players SET session = '{}' WHERE player = '{}'".format(self.session_id, self.player))
+                cursor.execute("UPDATE players SET balance = ? WHERE player = ?", [self.balance, self.player])
+            cursor.execute("UPDATE players SET session = ? WHERE player = ?", [self.session_id, self.player])
         conn.commit()
 
     @staticmethod
@@ -74,7 +73,7 @@ class Player:
         if name is None:
             return None
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT player, session, balance FROM players WHERE player = '{}'".format(name))
+        cursor.execute("SELECT player, session, balance FROM players WHERE player = ?" [name])
         res = cursor.fetchall()
         for d in res:
             return Player(d[0], d[1], d[2])
@@ -86,7 +85,7 @@ class Player:
             return None
         cursor, conn = STORAGE.get_connection()
         cursor.execute(
-            "SELECT player, session, balance FROM players WHERE session != '' AND session = '{}'".format(session_id))
+            "SELECT player, session, balance FROM players WHERE session != '' AND session = ?", [session_id])
         res = cursor.fetchall()
         for d in res:
             return Player(d[0], d[1], d[2])
