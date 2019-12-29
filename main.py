@@ -4,10 +4,9 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import time
 
 from api_worker import Api
-from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot, \
-    order_lot_by_time, order_lot
+from functions import generate_session, template, generate_nav, get_items, create_lot, order_lot_by_time, order_lot
 from lang import LANG
-from models import Player, Lot, Item
+from models import Player, Lot, Item, get_name_from_id
 from http.cookies import SimpleCookie
 from urllib.parse import parse_qs
 

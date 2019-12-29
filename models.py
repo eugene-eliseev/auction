@@ -7,6 +7,7 @@ SQLITE_PATH = "db.sqlite3"
 class DataStorage:
     def __init__(self):
         self.sqlite = sqlite3.connect(SQLITE_PATH)
+        self.items = {}
         cursor, conn = self.get_connection()
         cursor.execute(
             "CREATE TABLE IF NOT EXISTS players (player VARCHAR(20) PRIMARY KEY, session VARCHAR(32), balance DECIMAL(9,2))"
@@ -17,6 +18,15 @@ class DataStorage:
         cursor.execute(
             "CREATE TABLE IF NOT EXISTS lots (id INTEGER PRIMARY KEY, player VARCHAR(20), item_id INTEGER, price_start DECIMAL(9,2), buyer VARCHAR(20), price_now DECIMAL(9,2), price_end DECIMAL(9,2), last_changed DECIMAL(11,3))"
         )
+        with open("items.txt", "r", encoding="utf8") as f:
+            lines = f.readlines()
+            for line in lines:
+                line = line.strip()
+                data = line.split("<:>")
+                item = ':'.join(data[:2])
+                icon = data[2]
+                name = data[3]
+                self.items[item] = (name, icon)
         conn.commit()
 
     def get_connection(self):
@@ -24,6 +34,12 @@ class DataStorage:
 
 
 STORAGE = DataStorage()
+
+
+def get_name_from_id(server, item_id):
+    if server == "HiTech" and item_id in STORAGE.items:
+        return STORAGE.items[item_id][0]
+    return "Неизвестный предмет"
 
 
 class Player:

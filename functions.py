@@ -152,7 +152,3 @@ def generate_nav(player, page):
     if "{}_active".format(page) in vars:
         vars["{}_active".format(page)] = "active"
     return template(nav, vars)
-
-
-def get_name_from_id(server, item_id):
-    return "Неизвестный предмет"
