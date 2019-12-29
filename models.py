@@ -27,6 +27,8 @@ class DataStorage:
                 icon = data[2]
                 name = data[3]
                 self.items[item] = (name, icon)
+                if data[1] == '0':
+                    self.items[data[0]] = (name, icon)
         conn.commit()
 
     def get_connection(self):
