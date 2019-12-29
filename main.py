@@ -168,14 +168,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 params["price_start"][0],
                 params["price_end"][0]
             )
-            os.system('echo "{},{},{},{},{},{}" >> log.txt'.format(
-                int(time.time()),
-                player.player,
-                params["id"][0],
-                params["amount"][0],
-                params["price_start"][0],
-                params["price_end"][0]
-            ))
+            with open("log.log", "a+", encoding="utf-8") as f:
+                f.write("{},{},{},{},{},{}".format(
+                    int(time.time()),
+                    player.player,
+                    params["id"][0],
+                    params["amount"][0],
+                    params["price_start"][0],
+                    params["price_end"][0]
+                ))
         if "change_now_id" in params and "cost_current" in params:
             res, info = order_lot(player, params["change_now_id"][0], params["cost_current"][0])
         if "buy_now_id" in params:
