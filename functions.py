@@ -1,8 +1,12 @@
 import random
 import time
+
+import os
+
 from api_worker import Api
 from models import Lot, Item, Player
 import hashlib
+import re
 
 
 def order_lot(player, lot_id, price):
@@ -92,3 +96,24 @@ def create_lot(id, amount, price_start, price_end):
 def generate_session(username):
     m = hashlib.md5("T{}U{}R{}E".format(int(time.time()), username, random.randint(1, 100000)).encode('utf-8'))
     return m.hexdigest()
+
+
+def template(data, vars):
+    for key, value in vars.items():
+        data = re.sub('{' + key + '}', str(value), data, flags=re.IGNORECASE)
+    return data
+
+
+def generate_nav(player):
+    nav = open(os.path.join("static", "nav_bar.html"), "r", encoding="utf8").read()
+    if player is None:
+        player_name = "Гость"
+        auth_block = open(os.path.join("static", "guest_user.html"), "r", encoding="utf8").read()
+    else:
+        player_name = player.player
+        auth_block = open(os.path.join("static", "auth_user.html"), "r", encoding="utf8").read()
+    return template(nav, {"user": player_name, "auth_block": auth_block})
+
+
+def get_name_from_id(server, item_id):
+    return "Неизвестный предмет"

@@ -1,246 +1,67 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div class="row">
+    <div class=" col-sm-3 ml-5 my-4">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <form>
 
-	<link href="max.css" rel="stylesheet">
-	
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    
+            <div class="col mb-4 bg-primary ">
+                <div class="card px-3 ">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 my-auto">
+                            <img src="box2.png" class="card-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body ">
+                                <h3 id="item_name" class="col mb-4 card-title" style="text-align:center;"></h3>
+                                <p id="item_id" class="card-text"><b>Id предмета:</b></p>
+                                <p id="item_count" class="card-text"><b>Количество:</b></p>
+                                <p id="item_user" class="card-text"><b>Владелец:</b></p>
+                                <p id="item_server" class="card-text"><b>Сервер:</b></p>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
-	
-	<script src="script.js"> </script>
-	
-	
-	
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand pr-5" href="#" >Самый топовый аукцион</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	  </button>
-
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-		  <li class="nav-item">
-			<a class="nav-link" href="#">Главная </a>
-		  </li>
-		  <li class="nav-item ">
-			<a class="nav-link" href="#">Доступные лоты</a>
-		  </li>
-		  <li class="nav-item active">
-			<a class="nav-link" href="#">Выставить лот</a>
-		  </li>
-		  <!--<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			  Dropdown
-			</a>
-			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			  <a class="dropdown-item" href="#">Action</a>
-			  <a class="dropdown-item" href="#">Another action</a>
-			  <div class="dropdown-divider"></div>
-			  <a class="dropdown-item" href="#">Something else here</a>
-			</div>
-		  </li>-->
-		  <!--<li class="nav-item">
-			<a class="nav-link disabled" href="#">Disabled</a>
-		  </li>-->
-		</ul>
-		<div class="my-1 my-lg-0 mr-5 pr-5">
-		  <div class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle btn btn-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			  Вы вошли как {User}
-			</a>
-			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			  <a class="dropdown-item" href="#">Ваш баланс: {money}</a>
-			  <a class="dropdown-item" href="#">Выставлено товаров: {countLots}</a>
-			  <div class="dropdown-divider"></div>
-			  <a class="dropdown-item" href="#">Выход</a>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</nav>
-	
-	
-	
-	
-	
-	<div class="row">
-	  <div class=" col-sm-3 ml-5 my-4">
-		
-		<form>
-		
-		<div class="col mb-4 bg-primary ">
-		<div class="card px-3 ">
-		  <div class="row no-gutters">
-			<div class="col-md-4 my-auto">
-			  <img src="box2.png" class="card-img" alt="...">
-			</div>
-			<div class="col-md-8">
-			  <div class="card-body ">
-				<h3 id = "item_name" class="col mb-4 card-title" style="text-align:center;"></h3>
-				<p id = "item_id" class="card-text"><b>Id предмета:</b>  </p> 
-				<p id = "item_count" class="card-text"><b>Количество:</b></p> 
-				<p id = "item_user" class="card-text"><b>Владелец:</b> </p> 
-				<p id = "item_server" class="card-text"><b>Сервер:</b> </p> 
-				
-			  </div>
-			</div>
-		  </div>
-		</div>
-	</div>
-		
-		
-		
-		  <input type="hidden" class="form-control" id="item_id">
-		  <div class="form-group row">
-			<label class="col-sm-4 col-form-label">Количество:</label>
-			<div class="col-sm-8">
-			  <input class="form-control" id="count">
-			</div>
-		  </div>
-		  <div class="form-group row">
-			<label class="col-sm-5 col-form-label">Минимальная цена:</label>
-			<div class="col-sm-7">
-			  <input class="form-control" id="min_cost">
-			</div>
-		  </div>
-		  <div class="form-group row">
-			<label class="col-sm-5 col-form-label">Максимальная цена:</label>
-			<div class="col-sm-7">
-			  <input class="form-control" id="max_cost">
-			</div>
-		  </div>
-		  
-		  
-		  <div class="form-group row">
-			<div class="w-100 px-3">
-			  <button type="submit" class="w-100 btn btn-primary">Выставить лот</button>
-			</div>
-		  </div>
-		</form>
-	  
-	  
-	  </div>
-	  <div class="col-sm-8">
-		<div class="row row-cols-1 row-cols-md-2 mx-5 my-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-	
-	
-	<div id = "id1" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)" onclick="click_item({item_name},{item_id},{item_count},{user_name},{server_name})">
-    <div class="card px-3">
-	  <div class="row no-gutters">
-		<div class="col-md-4 my-auto">
-		  <img src="box2.png" class="card-img" alt="...">
-		</div>
-		<div class="col-md-8">
-		  <div class="card-body ">
-			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
-			<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
-			<p class="card-text"><b>Количество:</b> {item_count} </p> 
-			<p class="card-text"><b>Владелец:</b> {user_name} </p> 
-			<p class="card-text"><b>Сервер:</b> {server_name} </p> 
-			
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-  
-  <div id = "id2" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
-    <div class="card px-3">
-	  <div class="row no-gutters">
-		<div class="col-md-4 my-auto">
-		  <img src="box2.png" class="card-img" alt="...">
-		</div>
-		<div class="col-md-8">
-		  <div class="card-body ">
-			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
-			<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
-			<p class="card-text"><b>Количество:</b> {item_count} </p> 
-			<p class="card-text"><b>Владелец:</b> {user_name} </p> 
-			<p class="card-text"><b>Сервер:</b> {server_name} </p> 
-			
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-  
-  <div id = "id3" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
-    <div class="card px-3">
-	  <div class="row no-gutters">
-		<div class="col-md-4 my-auto">
-		  <img src="box2.png" class="card-img" alt="...">
-		</div>
-		<div class="col-md-8">
-		  <div class="card-body ">
-			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
-			<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
-			<p class="card-text"><b>Количество:</b> {item_count} </p> 
-			<p class="card-text"><b>Владелец:</b> {user_name} </p> 
-			<p class="card-text"><b>Сервер:</b> {server_name} </p> 
-			
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-  
-  <div id = "id4" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
-    <div class="card px-3">
-	  <div class="row no-gutters">
-		<div class="col-md-4 my-auto">
-		  <img src="box2.png" class="card-img" alt="...">
-		</div>
-		<div class="col-md-8">
-		  <div class="card-body ">
-			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
-			<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
-			<p class="card-text"><b>Количество:</b> {item_count} </p> 
-			<p class="card-text"><b>Владелец:</b> {user_name} </p> 
-			<p class="card-text"><b>Сервер:</b> {server_name} </p> 
-			
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
+            <input type="hidden" class="form-control" id="id">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Количество:</label>
+                <div class="col-sm-8">
+                    <input class="form-control" id="count">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Минимальная цена:</label>
+                <div class="col-sm-7">
+                    <input class="form-control" id="min_cost">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-5 col-form-label">Максимальная цена:</label>
+                <div class="col-sm-7">
+                    <input class="form-control" id="max_cost">
+                </div>
+            </div>
 
 
-  </div>
-  
+            <div class="form-group row">
+                <div class="w-100 px-3">
+                    <button type="submit" class="w-100 btn btn-primary">Выставить лот</button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+    <div class="col-sm-8">
+        <div class="row row-cols-1 row-cols-md-2 mx-5 my-4">
+            {items}
+        </div>
+
+    </div>
+
 </div>
 	
-	  </div>
-	</div>
-	
 	
 
-	
-	
-	
-	
-	
-	<!-- <h1 style = "text-align: center;">Добро пожаловать на аукцион!</h1> -->
-	
-	
-	
-	
-	
-  </body>
-</html>

@@ -3,7 +3,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from io import BytesIO
 
 from api_worker import Api
-from functions import generate_session
+from functions import generate_session, template, generate_nav, get_items, get_name_from_id
 from models import Player
 from http.cookies import SimpleCookie
 from urllib.parse import parse_qs
@@ -30,6 +30,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         if player is None and self.path != "login":
             self.redirect("/login")
             return
+        if player is not None and self.path == "login":
+            self.redirect("/")
+            return
 
         if self.path == "exit":
             print("Logout")
@@ -38,24 +41,55 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.redirect("/login")
             return
 
+        if self.path == "login":
+            self.path = "login.html"
         file = os.path.join("static", self.path)
         if os.path.exists(file):
-            self.send_html(file)
+            self.send_file(file)
             return
+
+        vars = {}
+
+        if self.path == "add_lot":
+            item_str = open(os.path.join("static", "add_lot_item.html"), "r", encoding="utf8").read()
+            vars["items"] = ""
+            items = get_items(player.player)
+            for item in items:
+                vars["items"] += template(item_str, {
+                    "server_name": item.server,
+                    "user_name": item.player,
+                    "item_count": item.amount,
+                    "item_id": item.item,
+                    "id": item.id,
+                    "item_name": get_name_from_id(item.server, item.item)
+                })
         file_html = os.path.join("static", "{}.html".format(self.path))
         if os.path.exists(file_html):
-            self.send_html(file_html)
+            self.send_html(file_html, player, vars)
             return
         self.send_response(404)
         self.end_headers()
         self.wfile.write(b'404 not found')
         print(self.path, "404")
 
-    def send_html(self, file):
-        data = open(file, "rb").read()
+    def send_html(self, file, player, vars):
+        content = open(file, "r", encoding="utf8").read()
+        content = template(content, vars)
+
+        nav = generate_nav(player)
+
+        main = open(os.path.join("static", "main.html"), "r", encoding="utf8").read()
+        page = template(main, {"content": content, "navigation": nav})
+
         self.send_response(200)
         self.end_headers()
-        self.wfile.write(data)
+        self.wfile.write(bytes(page, encoding="utf8"))
+
+    def send_file(self, file):
+        file = open(file, "rb").read()
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(file)
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])

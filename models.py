@@ -108,7 +108,7 @@ class Item:
     @staticmethod
     def from_lot(lot):
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT id, player, amount, item, extra, server FROM items WHERE id = '{}'".format(lot.item_id))
+        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE id = '{}'".format(lot.item_id))
         res = cursor.fetchall()
         for d in res:
             return Item(d[0], d[1], d[2], d[3], d[4], d[5])
@@ -118,7 +118,7 @@ class Item:
     def find_items_of_player(player):
         items = []
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT id, player, amount, item, extra, server FROM items WHERE player = '{}'".format(player))
+        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE player = '{}'".format(player))
         res = cursor.fetchall()
         for d in res:
             items.append(Item(d[0], d[1], d[2], d[3], d[4], d[5]))

@@ -1,33 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a class="navbar-brand pr-5" href="#" >Самый топовый аукцион</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	  </button>
+    <a class="navbar-brand pr-5" href="#">Самый топовый аукцион</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-		  <!--<li class="nav-item">
-			<a class="nav-link" href="#">Главная </a>
-		  </li>-->
-		  <li class="nav-item active">
-			<a class="nav-link" href="#">Доступные лоты</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="#">Выставить лот</a>
-		  </li>
-		</ul>
-		<div class="my-1 my-lg-0 mr-5 pr-5">
-		  <div class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle btn btn-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			  Вы вошли как {User}
-			</a>
-			<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			  <a class="dropdown-item" href="#">Ваш баланс: {money}</a>
-			  <a class="dropdown-item" href="#">Выставлено товаров: {countLots}</a>
-			  <div class="dropdown-divider"></div>
-			  <a class="dropdown-item" href="#">Выход</a>
-			</div>
-		  </div>
-		</div>
-	  </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Главная</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/all_lots">Доступные лоты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/add_lot">Выставить лот</a>
+            </li>
+        </ul>
+        <div class="my-1 my-lg-0 mr-5 pr-5">
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle btn btn-light" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Вы вошли как {User}
+                </a>
+                {auth_block}
+            </div>
+        </div>
+    </div>
 </nav>
