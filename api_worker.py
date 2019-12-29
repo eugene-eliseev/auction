@@ -31,3 +31,7 @@ class Api:
     @staticmethod
     def find_items_of_player(player):
         return None
+
+    @staticmethod
+    def get_balance(playername):
+        return None
