@@ -1,12 +1,18 @@
-<div class="form-group row mr-3">
-    <label for="inputEmail3" class="col-sm-4 col-form-label">Введите цену: </label>
-    <div class="col-sm-4">
-        <input class="form-control" id="inputEmail3" placeholder="Ваша ставка">
-    </div>
-    <button type="submit" class=" col-sm-4 btn btn-secondary">Повысить ставку</button>
-</div>
+<form>
+	<div class="form-group row mr-3">
+		<input type="hidden" name="buy_now_id" value="{buy_now_id}">
+		<label for="inputEmail3" class="col-sm-4 col-form-label">Введите цену: </label>
+		<div class="col-sm-4">
+			<input class="form-control" id="input_cost" placeholder="Ваша ставка" name="cost_current">
+		</div>
+		<button type="submit" class=" col-sm-4 btn btn-secondary">Повысить ставку</button>
+	</div>
+</form>
 
-<button type="button" class="row px-5 w-100 btn btn-primary">Купить прямо сейчас за {cost_now}</button>
+<form method = "post">
+	<input type="hidden" name="buy_now_id" value="{buy_now_id}">
+	<button type="submit" class="row px-5 w-100 btn btn-primary">Купить прямо сейчас за {cost_now}</button>
+</form>
 
 <div class="my-4 row mx-auto">
 
