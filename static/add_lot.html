@@ -80,15 +80,32 @@
 	
 	<div class="row">
 	  <div class=" col-sm-3 ml-5 my-4">
-	  
+		
 		<form>
-		  <input type="hidden" class="form-control" id="item_id">
-		  <div class="form-group row">
-			<label class="col-sm-4 col-form-label">Наименование:</label>
-			<div class="col-sm-8">
-			  <input class="form-control" id="item_name">
+		
+		<div class="col mb-4 bg-primary ">
+		<div class="card px-3 ">
+		  <div class="row no-gutters">
+			<div class="col-md-4 my-auto">
+			  <img src="box2.png" class="card-img" alt="...">
+			</div>
+			<div class="col-md-8">
+			  <div class="card-body ">
+				<h3 id = "item_name" class="col mb-4 card-title" style="text-align:center;"></h3>
+				<p id = "item_id" class="card-text"><b>Id предмета:</b>  </p> 
+				<p id = "item_count" class="card-text"><b>Количество:</b></p> 
+				<p id = "item_user" class="card-text"><b>Владелец:</b> </p> 
+				<p id = "item_server" class="card-text"><b>Сервер:</b> </p> 
+				
+			  </div>
 			</div>
 		  </div>
+		</div>
+	</div>
+		
+		
+		
+		  <input type="hidden" class="form-control" id="item_id">
 		  <div class="form-group row">
 			<label class="col-sm-4 col-form-label">Количество:</label>
 			<div class="col-sm-8">
@@ -109,9 +126,9 @@
 		  </div>
 		  
 		  
-		  <div class="form-group row ">
-			<div class="mx-auto">
-			  <button type="submit" class="btn btn-primary">Выставить лот</button>
+		  <div class="form-group row">
+			<div class="w-100 px-3">
+			  <button type="submit" class="w-100 btn btn-primary">Выставить лот</button>
 			</div>
 		  </div>
 		</form>
@@ -122,26 +139,9 @@
 		<div class="row row-cols-1 row-cols-md-2 mx-5 my-4">
 
 
-	<div class="col mb-4 item_box">
-		<div class="card px-3">
-		  <div class="row no-gutters">
-			<div class="col-md-4 my-auto">
-			  <img src="box2.png" class="card-img" alt="...">
-			</div>
-			<div class="col-md-8">
-			  <div class="card-body ">
-				<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
-				<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
-				<p class="card-text"><b>Количество:</b> {item_count} </p> 
-				<p class="card-text"><b>Владелец:</b> {user_name} </p> 
-				<p class="card-text"><b>Сервер:</b> {server_name} </p> 
-				
-			  </div>
-			</div>
-		  </div>
-		</div>
-	</div>
-	<div class="col mb-4 item_box">
+	
+	
+	<div id = "id1" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)" onclick="click_item({item_name},{item_id},{item_count},{user_name},{server_name})">
     <div class="card px-3">
 	  <div class="row no-gutters">
 		<div class="col-md-4 my-auto">
@@ -160,7 +160,8 @@
 	  </div>
 	</div>
   </div>
-  <div class="col mb-4 item_box">
+  
+  <div id = "id2" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
     <div class="card px-3">
 	  <div class="row no-gutters">
 		<div class="col-md-4 my-auto">
@@ -179,7 +180,28 @@
 	  </div>
 	</div>
   </div>
-  <div onclick = "click_item(3,1)" class="col mb-4 item_box">
+  
+  <div id = "id3" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
+    <div class="card px-3">
+	  <div class="row no-gutters">
+		<div class="col-md-4 my-auto">
+		  <img src="box2.png" class="card-img" alt="...">
+		</div>
+		<div class="col-md-8">
+		  <div class="card-body ">
+			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}</h3>
+			<p class="card-text"><b>Id предмета:</b> {item_id} </p> 
+			<p class="card-text"><b>Количество:</b> {item_count} </p> 
+			<p class="card-text"><b>Владелец:</b> {user_name} </p> 
+			<p class="card-text"><b>Сервер:</b> {server_name} </p> 
+			
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <div id = "id4" class="col mb-4 " onmouseenter="mouse_enter(event)" onmouseleave="mouse_leave(event)">
     <div class="card px-3">
 	  <div class="row no-gutters">
 		<div class="col-md-4 my-auto">
