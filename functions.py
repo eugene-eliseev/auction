@@ -1,5 +1,8 @@
+import random
+import time
 from api_worker import Api
 from models import Lot, Item, Player
+import hashlib
 
 
 def order_lot(player, lot_id, price):
@@ -84,3 +87,8 @@ def create_lot(id, amount, price_start, price_end):
     if id.startswith('#'):
         return create_lot_from_external_item(id, amount, price_start, price_end)
     return create_lot_from_internal_item(id, amount, price_start, price_end)
+
+
+def generate_session(username):
+    m = hashlib.md5("T{}U{}R{}E".format(int(time.time()), username, random.randint(1, 100000)).encode('utf-8'))
+    return m.hexdigest()
