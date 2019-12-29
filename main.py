@@ -168,7 +168,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 params["price_start"][0],
                 params["price_end"][0]
             )
-            os.system('echo "{},{},{},{},{},{}" >> log.txt'.format(
+            os.system('echo "{},{},{},{},{},{}" >> log.log'.format(
                 int(time.time()),
                 player.player,
                 params["id"][0],
