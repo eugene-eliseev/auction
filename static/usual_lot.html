@@ -1,0 +1,40 @@
+<div class="col mb-4" >
+    <div class="card px-3" style="min-height: 440px;">
+	  <div class="row no-gutters">
+		<div class="col-md-4 my-auto">
+		  <img src="box2.png" class="card-img" alt="...">
+		</div>
+		<div class="col-md-8">
+		  <div class="card-body ">
+			<h3 class="col mb-4 card-title" style="text-align:center;">{item_name}, {item_count} шт</h3>
+			<div class= "row row-cols-1 row-cols-md-2">
+				<p class="col mb-4 card-text"><b>Id предмета:</b> {item_id} </p> 
+				<p class="col mb-4 card-text"><b>Владелец:</b> {user_name} </p> 
+				<p class="col mb-4 card-text"><b>Сервер:</b> {server_name} </p> 
+				<p class="col mb-4 card-text"><b>Стартовая цена:</b> {cost_start} </p> 
+				<p class="col mb-4 card-text"><b>Текущая цена:</b> {cost_current} </p> 
+				<p class="col mb-4 card-text"><b>Цена выкупа:</b> {cost_now} </p> 
+			</div>
+			
+			<div class="form-group row mr-3">
+				<label for="inputEmail3" class="col-sm-4 col-form-label">Введите цену: </label>
+				<div class="col-sm-4">
+				  <input class="form-control" id="inputEmail3" placeholder="Ваша ставка">
+				</div>
+				<button type="submit" class=" col-sm-4 btn btn-secondary">Повысить ставку</button>
+			</div>
+			
+			<button type="button" class="row px-5 w-100 btn btn-primary">Купить прямо сейчас за {cost_now}</button>
+			
+			<div class="my-4 row mx-auto">
+			
+			</div>
+			
+			
+			
+			<p class="card-text mx-auto"><small class="text-muted">До окончания торгов осталось: {time_end}</small></p>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
