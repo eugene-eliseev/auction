@@ -91,6 +91,11 @@ class Lot:
         else:
             self.buyer = buyer
 
+    def remove(self):
+        cursor, conn = STORAGE.get_connection()
+        cursor.execute("DELETE FROM lots WHERE id = '{}'".format(self.id))
+        conn.commit()
+
     def save(self):
         cursor, conn = STORAGE.get_connection()
         if Lot.from_id(self.id) is None:
@@ -171,6 +176,11 @@ class Item:
         self.item = item
         self.extra = extra
         self.server = server
+
+    def remove(self):
+        cursor, conn = STORAGE.get_connection()
+        cursor.execute("DELETE FROM items WHERE id = '{}'".format(self.id))
+        conn.commit()
 
     def save(self):
         cursor, conn = STORAGE.get_connection()

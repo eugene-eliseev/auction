@@ -5,7 +5,7 @@ import time
 
 from api_worker import Api
 from functions import generate_session, template, generate_nav, get_items, get_name_from_id, create_lot, \
-    order_lot_by_time
+    order_lot_by_time, order_lot
 from lang import LANG
 from models import Player, Lot, Item
 from http.cookies import SimpleCookie
@@ -88,9 +88,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     continue
                 lot_change = ""
                 if lot.buyer == player.player:
-                    lot_change = template(lot_buyer, {"cost_now": lot.price_end})
+                    lot_change = template(lot_buyer, {"cost_now": lot.price_end, "buy_now_id": lot.id})
                 elif lot.player != player.player:
-                    lot_change = template(lot_usual, {"cost_now": lot.price_end})
+                    lot_change = template(lot_usual, {"cost_now": lot.price_end, "buy_now_id": lot.id})
                 item = Item.from_lot(lot)
                 vars["lots"] += template(item_str, {
                     "id": lot.id,
@@ -161,15 +161,24 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         if player is None:
             self.redirect("/login")
             return
+        res = None
         if "id" in params and "amount" in params and "price_start" in params and "price_end" in params:
-            res, info = create_lot(params["id"][0], params["amount"][0], params["price_start"][0],
-                                   params["price_end"][0])
+            res, info = create_lot(
+                params["id"][0],
+                params["amount"][0],
+                params["price_start"][0],
+                params["price_end"][0]
+            )
+        if "change_now_id" in params and "cost_current" in params:
+            res, info = order_lot(player, params["change_now_id"][0], params["cost_current"][0])
+        if "buy_now_id" in params:
+            res, info = order_lot(player, params["buy_now_id"][0])
+        if res is not None:
             if not res:
-                self.redirect("/add_lot?error={}".format(info))
-                return
+                self.redirect("/all_lots?error={}".format(info))
             else:
-                self.redirect("/add_lot?success={}".format(info))
-                return
+                self.redirect("/all_lots?success={}".format(info))
+            return
         self.redirect("/")
 
 

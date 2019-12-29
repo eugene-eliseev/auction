@@ -23,31 +23,34 @@ def order_lot_by_time(lot):
     lot.remove()
 
 
-def order_lot(player, lot_id, price):
+def order_lot(player, lot_id, price=None):
     lot = Lot.from_id(lot_id)
-    if player.player == lot.buyer:
+    if price is None:
+        price = lot.price_end
+    price = float(price)
+    if player.player == lot.buyer and price < lot.price_end:
         return False, "buyer_already"
     if player.balance < price:
         return False, "not_enough_money"
-    if lot.price_now > price:
+    if lot.price_now >= price:
         return False, "too_few_price"
-    if lot.price_end >= price:
+    if lot.price_end <= price:
         item = Item.from_lot(lot)
         player.balance -= price
+        player.save()
         if lot.buyer != "":
             old_buyer = Player.from_name(lot.buyer)
             old_buyer.balance += lot.price_now
             old_buyer.save()
-        item.player = player
+        item.player = player.player
         if Api.create_item_server(item):
             item.remove()
         else:
             item.save()
         owner = Player.from_name(lot.player)
-        owner += price
+        owner.balance += price
         owner.save()
         lot.remove()
-        player.save()
         return True, "you_lot_done"
     if lot.buyer != "":
         old_buyer = Player.from_name(lot.buyer)
@@ -55,7 +58,7 @@ def order_lot(player, lot_id, price):
         old_buyer.save()
     player.balance -= price
     player.save()
-    lot.buyer = player
+    lot.buyer = player.player
     lot.price_now = price
     lot.save()
     return True, "you_lot_changed"
