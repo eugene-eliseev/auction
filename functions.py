@@ -152,3 +152,12 @@ def generate_nav(player, page):
     if "{}_active".format(page) in vars:
         vars["{}_active".format(page)] = "active"
     return template(nav, vars)
+
+
+def html_special_chars(text):
+    return str(text) \
+        .replace(u"&", u"&amp;") \
+        .replace(u'"', u"&quot;") \
+        .replace(u"'", u"&#039;") \
+        .replace(u"<", u"&lt;") \
+        .replace(u">", u"&gt;")

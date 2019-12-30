@@ -57,16 +57,15 @@ class Player:
         if Player.from_name(self.player) is None:
             if self.balance is None:
                 self.balance = 0
-            cursor.execute("INSERT INTO players (player, session, balance) VALUES ('{}', '{}', '{}')".format(
+            cursor.execute("INSERT INTO players (player, session, balance) VALUES (?, ?, ?)", [
                 self.player,
                 self.session_id,
                 self.balance
-            ))
+            ])
         else:
             if self.balance is not None:
-                cursor.execute(
-                    "UPDATE players SET balance = '{}' WHERE player = '{}'".format(self.balance, self.player))
-            cursor.execute("UPDATE players SET session = '{}' WHERE player = '{}'".format(self.session_id, self.player))
+                cursor.execute("UPDATE players SET balance = ? WHERE player = ?", [self.balance, self.player])
+            cursor.execute("UPDATE players SET session = ? WHERE player = ?", [self.session_id, self.player])
         conn.commit()
 
     @staticmethod
@@ -74,7 +73,7 @@ class Player:
         if name is None:
             return None
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT player, session, balance FROM players WHERE player = '{}'".format(name))
+        cursor.execute("SELECT player, session, balance FROM players WHERE player = ?", [name])
         res = cursor.fetchall()
         for d in res:
             return Player(d[0], d[1], d[2])
@@ -86,7 +85,7 @@ class Player:
             return None
         cursor, conn = STORAGE.get_connection()
         cursor.execute(
-            "SELECT player, session, balance FROM players WHERE session != '' AND session = '{}'".format(session_id))
+            "SELECT player, session, balance FROM players WHERE session != '' AND session = ?", [session_id])
         res = cursor.fetchall()
         for d in res:
             return Player(d[0], d[1], d[2])
@@ -111,14 +110,15 @@ class Lot:
 
     def remove(self):
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("DELETE FROM lots WHERE id = '{}'".format(self.id))
+        cursor.execute("DELETE FROM lots WHERE id = ?", [self.id])
         conn.commit()
 
     def save(self):
         cursor, conn = STORAGE.get_connection()
         if Lot.from_id(self.id) is None:
             cursor.execute(
-                "INSERT INTO lots (player, item_id, price_start, buyer, price_now, price_end, last_changed) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(
+                "INSERT INTO lots (player, item_id, price_start, buyer, price_now, price_end, last_changed) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [
                     self.player,
                     self.item_id,
                     self.price_start,
@@ -126,12 +126,13 @@ class Lot:
                     self.price_now,
                     self.price_end,
                     time.time()
-                )
+                ]
             )
             self.id = cursor.lastrowid
         else:
             cursor.execute(
-                "UPDATE lots SET player = '{}', item_id = '{}', price_start = '{}', buyer = '{}', price_now = '{}', price_end = '{}', last_changed = '{}' WHERE id = '{}'".format(
+                "UPDATE lots SET player = ?, item_id = ?, price_start = ?, buyer = ?, price_now = ?, price_end = ?, last_changed = ? WHERE id = ?",
+                [
                     self.player,
                     self.item_id,
                     self.price_start,
@@ -140,7 +141,7 @@ class Lot:
                     self.price_end,
                     time.time(),
                     self.id
-                )
+                ]
             )
         conn.commit()
 
@@ -150,9 +151,8 @@ class Lot:
             return None
         cursor, conn = STORAGE.get_connection()
         cursor.execute(
-            "SELECT id, player, item_id, price_start, buyer, price_now, price_end, last_changed FROM lots WHERE id = '{}'".format(
-                lot_id
-            )
+            "SELECT id, player, item_id, price_start, buyer, price_now, price_end, last_changed FROM lots WHERE id = ?",
+            [lot_id]
         )
         res = cursor.fetchall()
         for d in res:
@@ -164,9 +164,8 @@ class Lot:
         lots = []
         cursor, conn = STORAGE.get_connection()
         cursor.execute(
-            "SELECT id, player, item_id, price_start, buyer, price_now, price_end, last_changed FROM lots WHERE player = '{}'".format(
-                player_name
-            )
+            "SELECT id, player, item_id, price_start, buyer, price_now, price_end, last_changed FROM lots WHERE player = ?",
+            [player_name]
         )
         res = cursor.fetchall()
         for d in res:
@@ -197,32 +196,34 @@ class Item:
 
     def remove(self):
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("DELETE FROM items WHERE id = '{}'".format(self.id))
+        cursor.execute("DELETE FROM items WHERE id = ?", [self.id])
         conn.commit()
 
     def save(self):
         cursor, conn = STORAGE.get_connection()
         if Item.from_id(self.id) is None:
             cursor.execute(
-                "INSERT INTO items (item, player, amount, extra, server) VALUES ('{}', '{}', '{}', '{}', '{}')".format(
+                "INSERT INTO items (item, player, amount, extra, server) VALUES (?, ?, ?, ?, ?)",
+                [
                     self.item,
                     self.player,
                     self.amount,
                     self.extra,
                     self.server
-                )
+                ]
             )
             self.id = cursor.lastrowid
         else:
             cursor.execute(
-                "UPDATE items SET item = '{}', player = '{}', amount = '{}', extra = '{}', server = '{}' WHERE id = '{}'".format(
+                "UPDATE items SET item = ?, player = ?, amount = ?, extra = ?, server = ? WHERE id = ?",
+                [
                     self.item,
                     self.player,
                     self.amount,
                     self.extra,
                     self.server,
                     self.id
-                )
+                ]
             )
         conn.commit()
 
@@ -234,7 +235,7 @@ class Item:
         if id is None:
             return None
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE id = '{}'".format(id))
+        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE id = ?", [id])
         res = cursor.fetchall()
         for d in res:
             return Item(d[0], d[1], d[2], d[3], d[4], d[5])
@@ -248,7 +249,7 @@ class Item:
     def find_items_of_player(player):
         items = []
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE player = '{}'".format(player))
+        cursor.execute("SELECT id, item, player, amount, extra, server FROM items WHERE player = ?", [player])
         res = cursor.fetchall()
         for d in res:
             items.append(Item(d[0], d[1], d[2], d[3], d[4], d[5]))
