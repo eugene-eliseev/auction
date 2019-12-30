@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 import time
 
 
@@ -16,15 +18,6 @@ btn.click()
 
 driver.get("http://localhost:8000/all_lots")
 
-if len(driver.find_elements_by_class_name("card-title")) == 0:
-    driver.get("http://localhost:8000/add_lot")
-    driver.find_element_by_id("1").click()
-    driver.find_element_by_id("count").send_keys("1")
-    driver.find_element_by_id("min_cost").send_keys("1")
-    driver.find_element_by_id("max_cost").send_keys("10")
-    driver.find_element_by_id("button").click()
-    time.sleep(1)
-    driver.find_element_by_id("exampleModal").click()
-    driver.get("http://localhost:8000/all_lots")
 time.sleep(100)
+
 driver.close()

