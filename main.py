@@ -157,9 +157,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             balance = Api.get_balance(username)
             session_id = generate_session(username)
             player = Player(username, session_id, balance)
-            if(player.from_name(username) is None):
-                item_1 = Item(None,4,player.player,64,'','HiTech')
-                item_2 = Item(None,3,player.player,64,'','HiTech')
+            if player.from_name(username) is None:
+                item_1 = Item(None, 4, player.player, 64, '', 'HiTech')
+                item_2 = Item(None, 3, player.player, 64, '', 'HiTech')
                 item_1.save()
                 item_2.save()
                 player.balance = 1000
