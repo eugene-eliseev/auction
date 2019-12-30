@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 import time
 
 
-driver = webdriver.Chrome(executable_path=r'H:\PycharmProjects\Auction\chromedriver_win32\chromedriver.exe')
+driver = webdriver.Chrome(executable_path=r'..\chromedriver_win32\chromedriver.exe')
 
 driver.get("http://localhost:8000/login")
 
