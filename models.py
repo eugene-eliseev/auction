@@ -73,7 +73,7 @@ class Player:
         if name is None:
             return None
         cursor, conn = STORAGE.get_connection()
-        cursor.execute("SELECT player, session, balance FROM players WHERE player = ?"[name])
+        cursor.execute("SELECT player, session, balance FROM players WHERE player = ?", [name])
         res = cursor.fetchall()
         for d in res:
             return Player(d[0], d[1], d[2])
