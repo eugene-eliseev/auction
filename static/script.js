@@ -12,6 +12,7 @@ function click_item(id,item_name,item_id,count,user,server){
 	elem3.innerHTML = "<b>Количество:</b> "+count;
 	elem4.innerHTML = "<b>Владелец:</b> "+user;
 	elem5.innerHTML = "<b>Сервер:</b> "+server;
+
 }
 
 function mouse_enter(event){
@@ -25,3 +26,4 @@ function mouse_leave(event){
 	var elem = document.getElementById(event.target.id);
 	elem.classList.remove("bg-secondary");
 }
+
