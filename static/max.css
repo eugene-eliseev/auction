@@ -3,8 +3,8 @@
   width: 150px;
   height: 150px;
   margin: 10px auto;
-  background-color: yellow;  
-  
+  background-color: green;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
   animation-name: spinSQ1;
   animation-duration: 10s;
   animation-timing-sunction: linear;
@@ -17,8 +17,8 @@
   width: 50px;
   height: 50px;
   margin: -110px auto;
-  background-color: red;
-  box-shadow: 0 5px 0 gray;
+  background-color: yellow;
+  box-shadow: 0 15px 0 gray;
   opacity: 0.5;
   
   animation-name: spinSQ2;
