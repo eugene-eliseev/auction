@@ -195,6 +195,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.redirect("/")
 
 
-httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
+httpd = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
 print("Server started")
 httpd.serve_forever()
